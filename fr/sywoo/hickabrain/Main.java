@@ -22,12 +22,13 @@ public class Main extends JavaPlugin {
 	public Round round;
 	public ScoreBoard scoreboard = new ScoreBoard();
 
+
 	public Cuboid cuboid;
 
 	public FileConfiguration config;
 
-	public TeamsUtils blue = new TeamsUtils("blue", 1, "§b", true, "§b", false);
-	public TeamsUtils red = new TeamsUtils("red", 1, "§c", true, "§c", false);
+	public TeamsUtils blue;
+	public TeamsUtils red;
 
 	public int redPoints = 0;
 	public int bluePoints = 0;
@@ -42,6 +43,9 @@ public class Main extends JavaPlugin {
 	public Location c2;
 
 	public int WinPoints;
+	
+	public String Version = Bukkit.getServer().getBukkitVersion();
+
 
 	public String endCommand;
 	public String sbtitle;
@@ -58,12 +62,33 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
+		String[] var = Version.split("-");
+		Version = var[0];
 
+		
+		config = getConfig();
+		File file = new File(getDataFolder(), "config.yml");
+		if (!file.exists()) {
+		    getLogger().info("§2Create Config.yml");
+			config.addDefault("points", 10);
+			config.addDefault("scoreboard.title", "&9HikaBrain");
+			config.addDefault("scoreboard.footer", "&6play.scopegames.fr");
+			config.addDefault("finnish.command", "Commande sans / | Command without /");
+			config.addDefault("load.center.world", "world");
+			config.addDefault("load.center.x", 0);
+			config.addDefault("load.center.y", 0);
+			config.addDefault("load.center.z", 0);
+
+			config.options().copyDefaults(true);
+			Bukkit.getConsoleSender().sendMessage("§aVotre Fichier De configuration a bien été créé");
+			saveDefaultConfig();
+			saveConfig();
+		}
 		new ListenerManager().registers();
 		round = new Round();
 		round.setSpawns();
-		red.build();
-		blue.build();
+	
 		Bukkit.getWorld("world").setGameRuleValue("keepInventory", "true");
 
 		if (c1 != null && c2 != null) {
@@ -73,28 +98,24 @@ public class Main extends JavaPlugin {
 			.sendMessage("§c[Alert] §aLa zone de réinitialisation des blocks a été mal définie !");
 		}
 
-		config = getConfig();
-		File file = new File(getDataFolder(), "config.yml");
-		if (!file.exists()) {
-		    getLogger().info("§2Create Config.yml");
-			config.addDefault("points", 10);
-			config.addDefault("scoreboard.title", "&9HikaBrain");
-			config.addDefault("scoreboard.footer", "&6play.scopegames.fr");
-			config.addDefault("finnish.command", "Commande sans / | Command without /");
-			config.options().copyDefaults(true);
-			Bukkit.getConsoleSender().sendMessage("§aVotre Fichier De configuration a bien été créé");
-			saveDefaultConfig();
-			saveConfig();
-		} else {
 
-			
-			
-		}
 		
 		endCommand = config.getString("finnish.command");
 		WinPoints = config.getInt("points");
 		sbtitle = config.getString("scoreboard.title");
 		sbIp = config.getString("scoreboard.footer");
+		
+		System.out.println("Version " + Version + " Détecté");
+
+		blue = new TeamsUtils("blue", 1, "§b", true, "§b", false);
+		red = new TeamsUtils("red", 1, "§c", true, "§c", false);
+		red.build();
+		blue.build();
+		
+//		Version = ver[0] + ver[1];
+//		System.out.println(Version);
+		
+		
 
 	}
 

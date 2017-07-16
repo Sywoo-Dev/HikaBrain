@@ -55,7 +55,7 @@ public class PlayerMove implements Listener {
 					Main.getInstance().round.setPartyInventory(player);
 				}
 			} else {
-				player.teleport(new Location(player.getWorld(), -1134, 22, 780));
+				player.teleport(Main.getInstance().center);
 			}
 
 		}

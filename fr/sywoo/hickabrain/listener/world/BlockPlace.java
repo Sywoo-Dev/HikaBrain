@@ -12,11 +12,16 @@ public class BlockPlace implements Listener {
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event){
 		
+		if(!Main.getInstance().isLaunch){
+			event.setCancelled(true);
+			return;
+		}
 		if(event.getBlock().getLocation().getY() >= Main.getInstance().maxbuild){
 			event.setCancelled(true);
 			event.getPlayer().sendMessage("§cVous ne pouvez pas poser plus haut !");
 			return;
 		}
+		
 		
 		Main.getInstance().ModifiedBlocks.add(event.getBlock().getLocation());
 		

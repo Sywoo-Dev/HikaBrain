@@ -29,7 +29,10 @@ public class PlayerJoin implements Listener {
 		player.getInventory().setChestplate(new ItemStack(Material.AIR));
 		player.getInventory().setLeggings(new ItemStack(Material.AIR));
 		player.getInventory().setBoots(new ItemStack(Material.AIR));
-		Main.getInstance().scoreboard.setScoreBoard(player);
+		
+
+			Main.getInstance().scoreboard.setScoreBoard(player);
+
 
 		if(Bukkit.getOnlinePlayers().size() == 1){
 			Main.getInstance().blue.addPlayer(player);

@@ -12,6 +12,11 @@ public class BlockBreak implements Listener {
 	@EventHandler
 	public void onBreak(BlockBreakEvent event){
 
+		if(!Main.getInstance().isLaunch){
+			event.setCancelled(true);
+			return;
+		}
+		
 		if(event.getBlock().getType() == Material.OBSIDIAN || event.getBlock().getType() == Material.STAINED_CLAY || event.getBlock().getType() == Material.STAINED_GLASS){
 			event.setCancelled(true);
 			return;

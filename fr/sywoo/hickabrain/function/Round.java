@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.util.Vector;
 
 import fr.sywoo.hickabrain.Main;
 import fr.sywoo.hickabrain.utils.BlockRadius;
@@ -20,7 +21,10 @@ public class Round {
 
 	@SuppressWarnings("deprecation")
 	public void setSpawns(){
-		Location center = new Location(Bukkit.getWorld("world"), -1134,	21, 780);
+		Location center = new Location(Bukkit.getWorld(Main.getInstance().getConfig().getString("load.center.world")),
+				Main.getInstance().getConfig().getInt("load.center.x"),
+				Main.getInstance().getConfig().getInt("load.center.y"),
+				Main.getInstance().getConfig().getInt("load.center.z"));
 		int amount = 0;
 		int slime = 0;
 		int iron = 0;
@@ -138,6 +142,11 @@ public class Round {
 
 	public void setPartyInventory(Player player) {
 
+		if(Main.getInstance().Version.contains("1.9")){
+			player.getInventory().setItemInOffHand(new ItemStack(Material.SANDSTONE, 64, (short) 2));
+			player.setCollidable(true);
+		}
+		
 		if (player.getGameMode() != GameMode.SPECTATOR) {
 			player.getInventory().clear();
 			player.setHealth(20);
@@ -164,6 +173,8 @@ public class Round {
 			player.getInventory().setBoots(armor(Material.LEATHER_BOOTS, Color.BLUE, 1));
 
 		}
+		player.getEyeLocation().setDirection(new Vector(Main.getInstance().center.getX(), Main.getInstance().center.getY(), Main.getInstance().center.getZ()));
+
 	}
 
 	private void hasWon() {
